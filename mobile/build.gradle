@@ -26,4 +26,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     compile 'com.google.android.gms:play-services-wearable:7.5.0' //TODO remove
+
+    //TODO add :wearprotocol dependency
+    //TODO add :davincidaemon dependency
 }
