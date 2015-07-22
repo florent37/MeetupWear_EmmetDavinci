@@ -1,11 +1,11 @@
 package com.tutosandroidfrance.wearsample;
 
-import com.tutosandroidfrance.wearprotocol.AndroidVersion;
-
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.GET;
+
+// http://pastebin.com/raw.php?i=PHPXBsEf
 
 public interface AndroidService {
 

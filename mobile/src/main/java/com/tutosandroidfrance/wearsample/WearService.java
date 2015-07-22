@@ -1,12 +1,6 @@
 package com.tutosandroidfrance.wearsample;
 
-import com.github.florent37.davinci.daemon.DaVinciDaemon;
-import com.github.florent37.emmet.Emmet;
-import com.github.florent37.emmet.EmmetWearableListenerService;
-import com.google.android.gms.wearable.MessageEvent;
-import com.tutosandroidfrance.wearprotocol.AndroidVersion;
-import com.tutosandroidfrance.wearprotocol.SmartphoneProtocol;
-import com.tutosandroidfrance.wearprotocol.WearProtocol;
+import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.List;
 
@@ -15,25 +9,21 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class WearService extends EmmetWearableListenerService implements SmartphoneProtocol {
+public class WearService extends WearableListenerService { //TODO extends WearableListenerService
 
-    private WearProtocol wearProtocol;
+    //TODO create a sender
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //initialise la récéption de données
-        Emmet.registerReceiver(SmartphoneProtocol.class, this);
+        //TODO initialise receiver this
 
-        //initialise l'envoie de données vers la montre
-        wearProtocol = Emmet.createSender(WearProtocol.class);
+        //TODO create a sender
     }
 
-    //lorsque la montre envoie le message pleaseSendMeVersions au smartphone
-    @Override
-    public void pleaseSendMeVersions() {
-        //Utilise Retrofit pour réaliser un appel REST
+    protected void getAndroidVersions() {
+
         AndroidService androidService = new RestAdapter.Builder()
                 .setEndpoint(AndroidService.ENDPOINT)
                 .build().create(AndroidService.class);
@@ -43,21 +33,15 @@ public class WearService extends EmmetWearableListenerService implements Smartph
             @Override
             public void success(List<AndroidVersion> androidVersions, Response response) {
 
-                //envoie cette liste à la montre
-                wearProtocol.transferVersions(androidVersions);
+                //TODO send versions to wear
             }
 
             @Override
             public void failure(RetrofitError error) {
             }
         });
+
     }
 
-    @Override
-    public void onMessageReceived(MessageEvent messageEvent) {
-        super.onMessageReceived(messageEvent);
-
-        //permet à DaVinciDaemon d'écouter les messages
-        DaVinciDaemon.with(getApplicationContext()).handleMessage(messageEvent);
-    }
+    //TODO onMessageReceived DaVinciDaemon handleMessage
 }

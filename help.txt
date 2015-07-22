@@ -1,0 +1,64 @@
+wearprotocol
+==================
+
+compile ('com.github.florent37:emmet:1.0.4@aar'){
+     transitive=true
+}
+
+public interface SmartphoneProtocol {
+    void pleaseSendMeVersions();
+}
+
+public interface WearProtocol {
+    void transferVersions(List<AndroidVersion> androidVersions);
+}
+
+mobile
+==================
+
+compile project (":wearprotocol")
+compile ("com.github.florent37:davincidaemon:1.0.3@aar"){
+    transitive=true
+}
+
+extends WearableListenerService
+
+//initialise la récéption de données
+Emmet.registerReceiver(SmartphoneProtocol.class, this);
+
+//initialise l'envoie de données vers la montre
+this.wearProtocol = Emmet.createSender(WearProtocol.class);
+
+@Override
+public void onMessageReceived(MessageEvent messageEvent) {
+    super.onMessageReceived(messageEvent);
+
+    //permet à DaVinciDaemon d'écouter les messages
+    DaVinciDaemon.with(getApplicationContext()).handleMessage(messageEvent);
+}
+
+wear
+==================
+
+compile project(':wearprotocol')
+compile ('com.github.florent37:davinci:1.0.3@aar'){
+    transitive=true
+}
+
+public Drawable getBackgroundForRow(final int row) {
+    DaVinci.with(context).load(this.androidVersions.get(row).getUrl()).into(this, row);
+}
+
+
+Emmet.registerReceiver(WearProtocol.class, this);
+SmartphoneProtocol smartphoneProtocol = Emmet.createSender(SmartphoneProtocol.class);
+smartphoneProtocol.pleaseSendMeVersions();
+
+//envoyé depuis le smartphone
+@Override
+public void transferVersions(List<AndroidVersion> androidVersions) {
+    if (androidVersions != null && this.elementList != null && this.elementList.isEmpty()) {
+        this.elementList.addAll(androidVersions);
+        startMainScreen();
+    }
+}

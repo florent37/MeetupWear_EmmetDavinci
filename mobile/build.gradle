@@ -25,8 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
-    compile project (":wearprotocol")
-    compile ("com.github.florent37:davincidaemon:1.0.3@aar"){
-        transitive=true
-    }
+    compile 'com.google.android.gms:play-services-wearable:7.5.0' //TODO remove
 }

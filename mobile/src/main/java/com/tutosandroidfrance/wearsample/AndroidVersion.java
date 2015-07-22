@@ -1,4 +1,4 @@
-package com.tutosandroidfrance.wearprotocol;
+package com.tutosandroidfrance.wearsample;
 
 /**
  * Created by florentchampigny on 19/03/15.

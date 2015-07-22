@@ -4,18 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.GridViewPager;
-import android.widget.ImageView;
-
-import com.github.florent37.davinci.DaVinci;
-import com.github.florent37.emmet.Emmet;
-import com.tutosandroidfrance.wearprotocol.AndroidVersion;
-import com.tutosandroidfrance.wearprotocol.SmartphoneProtocol;
-import com.tutosandroidfrance.wearprotocol.WearProtocol;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity implements WearProtocol {
+public class MainActivity extends Activity {
 
     private GridViewPager pager;
     private DotsPageIndicator dotsPageIndicator;
@@ -28,33 +21,20 @@ public class MainActivity extends Activity implements WearProtocol {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //initialise Emmet
-        Emmet.onCreate(this);
+        //TODO initialise Emmet
 
         pager = (GridViewPager) findViewById(R.id.pager);
         dotsPageIndicator = (DotsPageIndicator) findViewById(R.id.page_indicator);
         dotsPageIndicator.setPager(pager);
 
-        Emmet.registerReceiver(WearProtocol.class, this);
-        SmartphoneProtocol smartphoneProtocol = Emmet.createSender(SmartphoneProtocol.class);
+        //TODO initialise Receiver this
 
-        smartphoneProtocol.pleaseSendMeVersions(); //envoie le message pleaseSendMeVersions smartphone
+        //TODO initialise Sender & send pleaseSendMeVersions
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Emmet.onDestroy(); //ne pas oublier
-    }
+    //TODO destroy Emmet
 
-    //envoyé depuis le smartphone
-    @Override
-    public void transferVersions(List<AndroidVersion> androidVersions) {
-        if (androidVersions != null && this.elementList != null && this.elementList.isEmpty()) {
-            this.elementList.addAll(androidVersions);
-            startMainScreen();
-        }
-    }
+    //TODO receive androidVersions & startMainScreen
 
     public void startMainScreen() {
         //penser à effectuer les actions graphiques dans le UIThread
