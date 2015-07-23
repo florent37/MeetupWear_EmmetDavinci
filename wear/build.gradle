@@ -24,6 +24,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.google.android.support:wearable:1.1.0'
 
-    //TODO add :wearprotocol dependency
-    //TODO add davinci dependency
+    compile project (":emmetprotocol")
+    compile ('com.github.florent37:davinci:1.0.3@aar'){
+        transitive=true
+    }
 }

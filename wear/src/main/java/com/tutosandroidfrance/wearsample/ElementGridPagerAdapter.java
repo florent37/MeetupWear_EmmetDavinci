@@ -7,6 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 
+import com.github.florent37.davinci.DaVinci;
+import com.github.florent37.emmetprotocol.AndroidVersion;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +45,7 @@ public class ElementGridPagerAdapter extends FragmentGridPagerAdapter {
     //le drawable affichée en background pour la ligne [row]
     @Override
     public Drawable getBackgroundForRow(final int row) {
-        return BACKGROUND_NONE; //TODO add DaVinci
+        return DaVinci.with(context).load(androidVersions.get(row).getUrl()).into(this,row);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.tutosandroidfrance.wearsample;
+package com.github.florent37.emmetprotocol;
 
 /**
  * Created by florentchampigny on 19/03/15.

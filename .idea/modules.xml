@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MeetupWear_EmmetDavinci.iml" filepath="$PROJECT_DIR$/MeetupWear_EmmetDavinci.iml" />
+      <module fileurl="file://$PROJECT_DIR$/emmetprotocol/emmetprotocol.iml" filepath="$PROJECT_DIR$/emmetprotocol/emmetprotocol.iml" />
       <module fileurl="file://$PROJECT_DIR$/mobile/mobile.iml" filepath="$PROJECT_DIR$/mobile/mobile.iml" />
       <module fileurl="file://$PROJECT_DIR$/wear/wear.iml" filepath="$PROJECT_DIR$/wear/wear.iml" />
     </modules>

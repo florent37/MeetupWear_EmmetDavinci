@@ -5,10 +5,15 @@ import android.os.Bundle;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.GridViewPager;
 
+import com.github.florent37.emmet.Emmet;
+import com.github.florent37.emmetprotocol.AndroidVersion;
+import com.github.florent37.emmetprotocol.SmartphoneProtocol;
+import com.github.florent37.emmetprotocol.WearProtocol;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements WearProtocol {
 
     private GridViewPager pager;
     private DotsPageIndicator dotsPageIndicator;
@@ -21,18 +26,26 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO initialise Emmet
+        Emmet.onCreate(this);
+
+        Emmet.getDefault().setLogEnabled(true);
 
         pager = (GridViewPager) findViewById(R.id.pager);
         dotsPageIndicator = (DotsPageIndicator) findViewById(R.id.page_indicator);
         dotsPageIndicator.setPager(pager);
 
-        //TODO initialise Receiver this
+        Emmet.registerReceiver(WearProtocol.class, this);
 
-        //TODO initialise Sender & send pleaseSendMeVersions
+        SmartphoneProtocol smartphoneProtocol = Emmet.createSender(SmartphoneProtocol.class);
+        smartphoneProtocol.pleaseSendMeRepos();
     }
 
-    //TODO destroy Emmet
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Emmet.onDestroy();
+    }
+
 
     //TODO receive androidVersions & startMainScreen
 
@@ -49,4 +62,9 @@ public class MainActivity extends Activity {
         });
     }
 
+    @Override
+    public void sendRepos(String name, List<AndroidVersion> repos) {
+        elementList.addAll(repos);
+        startMainScreen();
+    }
 }

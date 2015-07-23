@@ -1,5 +1,12 @@
 package com.tutosandroidfrance.wearsample;
 
+import com.github.florent37.davinci.daemon.DaVinciDaemon;
+import com.github.florent37.emmet.Emmet;
+import com.github.florent37.emmet.EmmetWearableListenerService;
+import com.github.florent37.emmetprotocol.AndroidVersion;
+import com.github.florent37.emmetprotocol.SmartphoneProtocol;
+import com.github.florent37.emmetprotocol.WearProtocol;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.List;
@@ -9,17 +16,18 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class WearService extends WearableListenerService { //TODO extends WearableListenerService
+public class WearService extends EmmetWearableListenerService implements SmartphoneProtocol {
 
-    //TODO create a sender
+    WearProtocol wearProtocol;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //TODO initialise receiver this
+        Emmet.getDefault().setLogEnabled(true);
 
-        //TODO create a sender
+        Emmet.registerReceiver(SmartphoneProtocol.class, this);
+        wearProtocol = Emmet.createSender(WearProtocol.class);
     }
 
     protected void getAndroidVersions() {
@@ -32,8 +40,7 @@ public class WearService extends WearableListenerService { //TODO extends Wearab
         androidService.getElements(new Callback<List<AndroidVersion>>() {
             @Override
             public void success(List<AndroidVersion> androidVersions, Response response) {
-
-                //TODO send versions to wear
+                wearProtocol.sendRepos("florent37",androidVersions);
             }
 
             @Override
@@ -43,5 +50,14 @@ public class WearService extends WearableListenerService { //TODO extends Wearab
 
     }
 
-    //TODO onMessageReceived DaVinciDaemon handleMessage
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+        super.onMessageReceived(messageEvent);
+        DaVinciDaemon.with(getApplicationContext()).handleMessage(messageEvent);
+    }
+
+    @Override
+    public void pleaseSendMeRepos() {
+        getAndroidVersions();
+    }
 }
